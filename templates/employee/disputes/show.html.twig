@@ -1,0 +1,162 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Résolution de litige - Employé{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">
+            <i class="bi bi-exclamation-triangle me-2"></i>Résolution de litige
+        </h1>
+        <a href="{{ path('employee_disputes_list') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Retour à la liste
+        </a>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4 border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-flag-fill me-2"></i>Détails du litige
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Trajet concerné</h6>
+                        <p class="mb-1">
+                            <i class="bi bi-geo-alt-fill text-primary me-1"></i>
+                            {{ booking.ride.departurePlace }} → {{ booking.ride.arrivalPlace }}
+                        </p>
+                        <p class="mb-0 text-muted small">
+                            <i class="bi bi-calendar me-1"></i>
+                            {{ booking.ride.departureDate|date('d/m/Y') }} à {{ booking.ride.departureTime|date('H:i') }}
+                        </p>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Passager (plaignant)</h6>
+                            <p class="mb-0">
+                                <i class="bi bi-person-fill text-primary me-1"></i>
+                                {{ booking.passenger.pseudo }}
+                            </p>
+                            <p class="mb-0 text-muted small">
+                                <i class="bi bi-envelope me-1"></i>
+                                {{ booking.passenger.email }}
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <h6 class="fw-bold">Conducteur</h6>
+                            <p class="mb-0">
+                                <i class="bi bi-person-badge text-success me-1"></i>
+                                {{ booking.ride.driver.pseudo }}
+                            </p>
+                            <p class="mb-0 text-muted small">
+                                <i class="bi bi-envelope me-1"></i>
+                                {{ booking.ride.driver.email }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Informations de réservation</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <i class="bi bi-people me-1"></i>
+                                Places réservées : <span class="badge bg-primary">{{ booking.seatsBooked }}</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-coin me-1"></i>
+                                Montant : <span class="fw-bold">{{ booking.totalPrice|number_format(0) }} crédits</span>
+                            </li>
+                            <li>
+                                <i class="bi bi-clock me-1"></i>
+                                Réservation effectuée le : {{ booking.createdAt|date('d/m/Y à H:i') }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    {% if booking.rating %}
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Note attribuée</h6>
+                        <p class="fs-5 mb-0">
+                            {% for i in 1..5 %}
+                                <i class="bi bi-star{{ i <= booking.rating ? '-fill' : '' }} text-warning"></i>
+                            {% endfor %}
+                            <span class="text-muted ms-2">({{ booking.rating }}/5)</span>
+                        </p>
+                    </div>
+                    {% endif %}
+
+                    {% if booking.feedback %}
+                    <div class="mb-3">
+                        <h6 class="fw-bold">Commentaire du passager</h6>
+                        <div class="p-3 bg-light rounded">
+                            <p class="mb-0">{{ booking.feedback }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div>
+                        <p class="text-muted small mb-0">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Litige signalé le {{ booking.feedbackAt|date('d/m/Y à H:i') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-wrench me-2"></i>Actions
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        <div class="mb-3">
+                            <label for="resolution_notes" class="form-label fw-bold">
+                                Notes de résolution *
+                            </label>
+                            <textarea class="form-control"
+                                      id="resolution_notes"
+                                      name="resolution_notes"
+                                      rows="5"
+                                      required
+                                      placeholder="Décrivez les actions prises et la décision..."></textarea>
+                            <small class="form-text text-muted">
+                                Ces notes seront enregistrées pour référence future
+                            </small>
+                        </div>
+
+                        <div class="alert alert-warning small">
+                            <strong>Résoudre favorablement :</strong> Le conducteur recevra les crédits de ce trajet.
+                            <br>
+                            <strong>Rejeter :</strong> Le litige reste marqué, aucun crédit attribué.
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" name="action" value="resolve"
+                                    class="btn btn-success"
+                                    onclick="return confirm('Confirmer la résolution favorable ? Le conducteur recevra les crédits.')">
+                                <i class="bi bi-check-circle me-1"></i>
+                                Résoudre favorablement
+                            </button>
+
+                            <button type="submit" name="action" value="reject"
+                                    class="btn btn-secondary"
+                                    onclick="return confirm('Rejeter ce litige ? Aucun crédit ne sera attribué.')">
+                                <i class="bi bi-x-circle me-1"></i>
+                                Rejeter le litige
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

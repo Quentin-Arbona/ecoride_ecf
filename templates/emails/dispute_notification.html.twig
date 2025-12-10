@@ -1,0 +1,10 @@
+<h1>Nouveau litige à traiter</h1>
+
+<p>Un passager a signalé un problème pour le trajet suivant :</p>
+
+<p><strong>Trajet :</strong> {{ booking.ride.departurePlace }} → {{ booking.ride.arrivalPlace }}</p>
+<p><strong>Date :</strong> {{ booking.ride.departureDate|date('d/m/Y H:i') }}</p>
+<p><strong>Passager :</strong> {{ booking.passenger.pseudo }} ({{ booking.passenger.email }})</p>
+<p><strong>Commentaire :</strong> {{ booking.feedback }}</p>
+
+<p>Merci de contacter le chauffeur pour résoudre ce problème.</p>

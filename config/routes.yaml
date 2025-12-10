@@ -9,3 +9,13 @@
 
 controllers:
     resource: routing.controllers
+    
+app_booking_confirm:
+    path: /booking/confirm/{rideId}
+    controller: App\Controller\BookingController::confirm
+    methods: GET
+
+app_booking_create:
+    path: /booking/create/{rideId}
+    controller: App\Controller\BookingController::create
+    methods: POST

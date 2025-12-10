@@ -1,0 +1,103 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Gestion des litiges - Employé{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">
+            <i class="bi bi-exclamation-triangle me-2"></i>Gestion des litiges
+        </h1>
+        <a href="{{ path('employee_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Retour au dashboard
+        </a>
+    </div>
+
+    {% if disputes is empty %}
+        <div class="alert alert-success">
+            <i class="bi bi-check-circle me-2"></i>
+            Aucun litige en cours. Tous les trajets se sont bien déroulés !
+        </div>
+    {% else %}
+        <div class="alert alert-danger mb-4">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <strong>{{ disputes|length }}</strong> litige(s) à traiter
+        </div>
+
+        {% for booking in disputes %}
+        <div class="card mb-3 shadow-sm border-danger">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="card-title mb-1 text-danger">
+                                    <i class="bi bi-flag-fill me-1"></i>
+                                    Litige signalé par {{ booking.passenger.pseudo }}
+                                </h5>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar me-1"></i>
+                                    Signalé le {{ booking.feedbackAt|date('d/m/Y à H:i') }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong><i class="bi bi-car-front me-1"></i>Trajet :</strong>
+                            <span class="text-muted">
+                                {{ booking.ride.departurePlace }} → {{ booking.ride.arrivalPlace }}
+                            </span>
+                            <br>
+                            <small class="text-muted">
+                                {{ booking.ride.departureDate|date('d/m/Y') }} à {{ booking.ride.departureTime|date('H:i') }}
+                            </small>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong><i class="bi bi-person-fill me-1"></i>Conducteur :</strong>
+                            <span class="text-muted">{{ booking.ride.driver.pseudo }}</span>
+                        </div>
+
+                        <div class="mb-2">
+                            <strong><i class="bi bi-people me-1"></i>Places réservées :</strong>
+                            <span class="badge bg-primary">{{ booking.seatsBooked }}</span>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong><i class="bi bi-coin me-1"></i>Montant du litige :</strong>
+                            <span class="text-danger fw-bold">{{ booking.totalPrice|number_format(0) }} crédits</span>
+                        </div>
+
+                        {% if booking.feedback %}
+                        <div class="mb-2">
+                            <strong><i class="bi bi-chat-text me-1"></i>Commentaire du passager :</strong>
+                            <div class="p-3 bg-light rounded mt-2">
+                                <p class="mb-0">{{ booking.feedback }}</p>
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% if booking.rating %}
+                        <div>
+                            <strong><i class="bi bi-star me-1"></i>Note donnée :</strong>
+                            {% for i in 1..5 %}
+                                <i class="bi bi-star{{ i <= booking.rating ? '-fill' : '' }} text-warning"></i>
+                            {% endfor %}
+                            <span class="text-muted">({{ booking.rating }}/5)</span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-4 text-end d-flex flex-column justify-content-center">
+                        <a href="{{ path('employee_dispute_show', {id: booking.id}) }}"
+                           class="btn btn-primary w-100">
+                            <i class="bi bi-eye me-1"></i> Traiter ce litige
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'layout.html.twig' %}
+{% block title %}Contact{% endblock %}
+{% block content %}
+<main>
+    <div class="d-flex justify-content-center align-items-center flex-grow-1">
+        <div class="mt-5 px-5 py-5 shadow-lg">
+            <h2 class="page-title mb-5 text-center"><i class="bi bi-envelope-paper"></i> Nous Contacter</h2>
+                {{ form_start(contactForm) }}
+                    {{ form_row(contactForm.name, {
+                        'label': 'Votre nom',
+                        'attr': {'class': 'form-control mb-3'}
+                    }) }}
+                    {{ form_row(contactForm.email, {
+                        'label': 'Votre email',
+                        'attr': {'class': 'form-control mb-3'}
+                    }) }}
+                    {{ form_row(contactForm.message, {
+                        'label': 'Votre message',
+                        'attr': {'class': 'form-control mb-3'}
+                    }) }}
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-envoyer">Envoyer message</button>
+                    </div>
+
+                {{ form_end(contactForm) }}
+        </div>
+    </div>
+</main>
+{% endblock %}
+

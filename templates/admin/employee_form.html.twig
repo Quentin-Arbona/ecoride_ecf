@@ -1,0 +1,54 @@
+{% extends 'layout.html.twig' %}
+
+
+{% block title %}
+    {% if employee.id %}Modifier{% else %}Créer{% endif %} un Employé
+{% endblock %}
+
+{% block content %}
+
+<main class="bg-light py-4">
+    <div class="container" style="max-width: 800px;">
+        <h1 class="page-title mb-5">{% if employee.id %}Modifier{% else %}Créer{% endif %} un Employé</h1>
+        {{ form_start(form) }}
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email, {'attr': {
+                        'class': 'form-control' ~ (form.email.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.email) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.pseudo) }}
+                    {{ form_widget(form.pseudo, {'attr': {
+                        'class': 'form-control' ~ (form.pseudo.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.pseudo) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.firstName) }}
+                    {{ form_widget(form.firstName, {'attr': {
+                        'class': 'form-control' ~ (form.firstName.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.firstName) }}
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    {{ form_label(form.lastName) }}
+                    {{ form_widget(form.lastName, {'attr': {
+                        'class': 'form-control' ~ (form.lastName.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                    <div class="invalid-feedback">
+                        {{ form_errors(form.lastName) }}
+                    </div>
+                </div>
+            </div>
+            <div class="">
+                <button type="submit" class="btn btn-search w-100">Enregistrer</button>
+            </div>
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

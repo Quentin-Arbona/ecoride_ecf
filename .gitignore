@@ -18,3 +18,29 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+###> claude-code ###
+/.claude/
+###< claude-code ###
+
+###> uploads ###
+/public/uploads/
+###< uploads ###
+
+###> node ###
+/node_modules/
+/package-lock.json
+###< node ###
+
+###> compiled assets ###
+/assets/styles/*.css
+/assets/styles/*.css.map
+###< compiled assets ###
+
+###> IDE ###
+/.vscode/
+/.idea/
+*.swp
+*.swo
+*~
+###< IDE ###

@@ -1,0 +1,101 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Ajouter un véhicule - EcoRide{% endblock %}
+
+{% block content %}
+<main class="bg-light py-4">
+    <div class="container" style="max-width: 600px;">
+        <div class="card shadow-sm">
+            <div class="card-header">
+                <h1 class="page-title h4 mb-0">
+                    <i class="bi bi-car-front"></i> Ajouter un véhicule
+                </h1>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info mb-4">
+                    <small><span class="text-danger">*</span><strong> Champs obligatoires</strong></small>
+                </div>
+                {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            {{ form_label(form.brand) }}
+                            {{ form_widget(form.brand, {'attr': {
+                                'class': 'form-control' ~ (form.brand.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.brand) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.model) }}
+                            {{ form_widget(form.model, {'attr': {
+                                'class': 'form-control' ~ (form.model.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.model) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.color) }}
+                            {{ form_widget(form.color, {'attr': {
+                                'class': 'form-control' ~ (form.color.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.color) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.licensePlate) }}
+                            {{ form_widget(form.licensePlate, {'attr': {
+                                'class': 'form-control' ~ (form.licensePlate.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.licensePlate) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.seats) }}
+                            {{ form_widget(form.seats, {'attr': {
+                                'class': 'form-control' ~ (form.seats.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.seats) }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.year) }}
+                            {{ form_widget(form.year, {'attr': {
+                                'class': 'form-control'  ~ (form.year.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                            <div class="invalid-feedback">
+                                {{ form_errors(form.year) }}
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            {{ form_row(form.isElectric) }}
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-search w-100">
+                                <i class="bi bi-plus-circle"></i> Ajouter le véhicule
+                            </button>
+                            <a href="{{ path('app_profile') }}" class="btn btn-secondary w-100 mt-2">
+                                Annuler
+                            </a>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</main>
+    <script>
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+{% endblock %}

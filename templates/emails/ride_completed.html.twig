@@ -1,0 +1,9 @@
+<h1>Votre trajet est terminé</h1>
+
+<p>Bonjour {{ booking.passenger.pseudo }},</p>
+
+<p>Le trajet "{{ booking.ride.departurePlace }} → {{ booking.ride.arrivalPlace }}" est maintenant terminé.</p>
+
+<p>Merci de <a href="{{ url('passenger_ride_feedback', {id: booking.id}) }}">donner votre avis</a> pour confirmer que tout s'est bien passé.</p>
+
+<p>Cordialement,<br>L'équipe EcoRide</p>

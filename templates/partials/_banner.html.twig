@@ -1,0 +1,60 @@
+<header>
+    <nav class="navbar navbar-expand-lg navbar-custom py-3">
+        <div class="container-fluid px-4">
+            <!-- Logo + brand texte -->
+            <a class="navbar-brand d-flex align-items-center" href="{{ path('app_home') }}">
+                <img src="{{ asset('img/logo-ecoride.png') }}" alt="EcoRide Logo" class="logo-img">
+                <span class="brand-text ms-2">EcoRide</span>
+            </a>
+
+            <!-- Bouton pour menu mobile -->
+            <button class="navbar-toggler border-0" type="button" 
+                data-bs-toggle="collapse" data-bs-target="#navbarContent" 
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Liens et boutons -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                
+                <div class="navbar-nav mx-auto">
+                    <a class="nav-link" href="{{ path('app_home') }}">Accueil</a>
+                    <a class="nav-link" href="{{ path('app_ride_index') }}">Covoiturages</a>
+                    <a class="nav-link" href="{{ path('app_contact') }}">Contact</a>
+                </div>
+
+                {# Si l'utilisateur N'EST PAS connecté #}
+                {% if not app.user %}
+                <!-- Boutons Connexion / Inscription à droite -->
+                <div class="d-flex align-items-center me">
+                    <a href="{{ path('app_login') }}" class="btn btn-outline-light me-2">Connexion</a>
+                    <a href="{{ path('app_register') }}" class="btn btn-light">Inscription</a>
+                </div>
+                {# Si l'utilisateur EST connecté #}
+                {% else %}
+                <ul class="list-unstyled">
+                    {% if app.user and 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="nav-item">
+                        <a href="{{ path('admin_dashboard') }}" class="nav-link">Administration</a>
+                    </li>
+                    {% endif %}
+                    {% if app.user and 'ROLE_EMPLOYE' in app.user.roles %}
+                    <li class="nav-item">
+                        <a href="{{ path('employee_dashboard') }}" class="nav-link">Espace Employé</a>
+                    </li>
+                    {% endif %}
+
+
+                    <li class="nav-item">
+                        <a href="{{ path('app_profile') }}" class="nav-link {% if app.current_route == 'app_profile' %} active fw_bold {% endif %}">Mon profil</a>
+                    </li>
+                    <li>
+                        <a href="{{path('app_logout')}}" class="nav-link">Se déconnecter</a>
+                    </li>
+                </ul>
+                {% endif %}
+                
+            </div>
+        </div>
+    </nav>
+</header>

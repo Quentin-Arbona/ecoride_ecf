@@ -1,0 +1,85 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Donner votre avis sur le trajet - EcoRide{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h1 class="h3 card-title mb-4">Donner votre avis sur le trajet</h1>
+
+                    <div class="alert alert-info mb-4">
+                        <h6 class="alert-heading">
+                            <i class="bi bi-info-circle me-2"></i>Informations sur le trajet
+                        </h6>
+                        <p class="mb-1">
+                            <strong>Trajet :</strong> {{ booking.ride.departurePlace }} → {{ booking.ride.arrivalPlace }}
+                        </p>
+                        <p class="mb-0">
+                            <strong>Date :</strong> {{ booking.ride.departureDate|date('d/m/Y') }} à {{ booking.ride.departureTime|date('H:i') }}
+                        </p>
+                    </div>
+
+                    <form method="post">
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Le trajet s'est-il bien passé ? *</label>
+                            <div class="d-flex gap-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="successful" id="successful_yes" value="1" checked>
+                                    <label class="form-check-label" for="successful_yes">
+                                        <i class="bi bi-check-circle text-success me-1"></i> Oui
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="successful" id="successful_no" value="0">
+                                    <label class="form-check-label" for="successful_no">
+                                        <i class="bi bi-x-circle text-danger me-1"></i> Non
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="rating" class="form-label">
+                                Note (optionnel - 1 à 5)
+                            </label>
+                            <select class="form-select" id="rating" name="rating">
+                                <option value="0" selected>-- Ne pas noter --</option>
+                                <option value="5">5 - ⭐⭐⭐⭐⭐ Excellent</option>
+                                <option value="4">4 - ⭐⭐⭐⭐ Très bien</option>
+                                <option value="3">3 - ⭐⭐⭐ Bien</option>
+                                <option value="2">2 - ⭐⭐ Moyen</option>
+                                <option value="1">1 - ⭐ Médiocre</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="feedback" class="form-label">Commentaire (optionnel)</label>
+                            <textarea class="form-control" id="feedback" name="feedback" rows="4"
+                                      placeholder="Partagez votre expérience avec ce conducteur..."></textarea>
+                            <div class="form-text">
+                                <i class="bi bi-shield-check me-1"></i>
+                                <small>
+                                    Si vous laissez une note ET un commentaire, un avis sera créé et soumis à validation
+                                    par un employé avant publication sur le profil du conducteur.
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ path('app_profile') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Annuler
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-send me-1"></i> Envoyer mon avis
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

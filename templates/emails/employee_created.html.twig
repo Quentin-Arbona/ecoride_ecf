@@ -1,0 +1,33 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Votre compte EcoRide</title>
+</head>
+<body>
+    <h1>Bienvenue chez EcoRide</h1>
+    
+    <p>Bonjour <strong>{{ employee.pseudo }}</strong>,</p>
+    
+    <p>Votre compte employé a été créé avec succès.</p>
+    
+    <p><strong>Email :</strong> {{ employee.email }}</p>
+    
+    <p>Pour définir votre mot de passe, cliquez sur le lien ci-dessous :</p>
+    
+    <p>
+        <a href="{{ resetUrl }}">Définir mon mot de passe</a>
+    </p>
+    
+    <p><strong>Important :</strong> Ce lien est valable pendant 1 heure.</p>
+    <p>Expiration : {{ expiresAt|date('d/m/Y à H:i') }}</p>
+    
+    <hr>
+    
+    <p>Si vous n'avez pas demandé la création de ce compte, veuillez ignorer cet email.</p>
+    
+    <p>
+        Cordialement,<br>
+        L'équipe EcoRide
+    </p>
+</body>
+</html>

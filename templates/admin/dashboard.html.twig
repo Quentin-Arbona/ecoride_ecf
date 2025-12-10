@@ -1,0 +1,93 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Tableau de bord Admin{% endblock %}
+
+{% block content %}
+
+
+<main class="bg-light py-4">  
+    <div class="container">
+        <h2 class="page-title mb-5 mt-5 text-center">Gestion des employés</h2>
+
+        <div class="row">
+            {# Colonne de gauche : Menu #}
+            <div class="col-md-3 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header text-white bg-secondary">
+                        <h5 class="mb-0">Actions</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid gap-2">
+                            <a href="{{ path('admin_employee_create') }}" class="btn btn-search">
+                                <i class="bi bi-person-plus me-2"></i> Créer un nouvel employé
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h5 class="mb-0">Liste des employés</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped mb-0">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                        <th>Pseudo</th>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>
+                                        <th class="text-center">
+                                            <span aria-label="Modifier">
+                                                <i class="bi bi-pen" aria-hidden="true"></i> 
+                                            </span>                                    
+                                        </th>
+                                        <th class="text-center">
+                                            <span aria-label="Supprimer">
+                                                <i class="bi bi-trash" aria-hidden="true"></i> 
+                                            </span>                                    
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for employee in employees %}
+                                        <tr>
+                                            <td>{{ employee.id }}</td>
+                                            <td>{{ employee.email }}</td>
+                                            <td>{{ employee.pseudo }}</td>
+                                            <td>{{ employee.firstName }}</td>
+                                            <td>{{ employee.lastName }}</td>
+                                            <td class="text-center">
+                                                <a class="btn btn-sm btn-warning" href="{{ path('admin_employee_edit', {id: employee.id}) }}" aria-label="Modifier">
+                                                    <i class="bi bi-pen" aria-hidden="true"></i>
+                                                </a>
+                                            </td>
+                                            <td class="text-center">
+                                                <form method="post" action="{{ path('admin_employee_delete', {'id': employee.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet employé ?')">
+                                                    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ employee.id) }}">
+                                                    <input type="hidden" name="_method" value="DELETE"> {# Simule une requête DELETE #}
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" aria-label="Supprimer">
+                                                        <i class="bi bi-trash" aria-hidden="true"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="4">Aucun employé trouvé.</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}

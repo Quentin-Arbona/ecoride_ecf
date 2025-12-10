@@ -1,0 +1,142 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Ajouter un trajet{% endblock %}
+
+{% block content %}
+
+<main class="bg-light py-4">
+    <div class="container" style="max-width: 800px;">
+        <div class="card shadow-sm">
+                <div class="card-header">
+                    <h1 class="page-title h4 mb-0">
+                        <i class="bi bi-car-front"></i> Ajouter un trajet
+                    </h1>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info mb-4">
+                        <small><span class="text-danger">*</span><strong> Champs obligatoires</strong></small>
+                    </div>
+                    {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': ''}}) }}
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                {{ form_label(form.departurePlace) }}
+                                {{ form_widget(form.departurePlace, {'attr': {
+                                    'class': 'form-control' ~ (form.departurePlace.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.departurePlace) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.departureDate) }}
+                                {{ form_widget(form.departureDate, {'attr': {
+                                    'class': 'form-control' ~ (form.departureDate.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.departureDate) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.departureTime) }}
+                                {{ form_widget(form.departureTime, {'attr': {
+                                    'class': 'form-control' ~ (form.departureTime.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.departureTime) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                {{ form_label(form.arrivalPlace) }}
+                                {{ form_widget(form.arrivalPlace, {'attr': {
+                                    'class': 'form-control' ~ (form.arrivalPlace.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.arrivalPlace) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.arrivalDate) }}
+                                {{ form_widget(form.arrivalDate, {'attr': {
+                                    'class': 'form-control' ~ (form.arrivalDate.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.arrivalDate) }}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                {{ form_label(form.arrivalTime) }}
+                                {{ form_widget(form.arrivalTime, {'attr': {
+                                    'class': 'form-control' ~ (form.arrivalTime.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.arrivalTime) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                {{ form_label(form.car) }}
+                                {{ form_widget(form.car, {'attr': {
+                                    'class': 'form-control' ~ (form.car.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.car) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.availableSeats) }}
+                                {{ form_widget(form.availableSeats, {'attr': {
+                                    'class': 'form-control' ~ (form.availableSeats.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.availableSeats) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.pricePerSeat) }}
+                                {{ form_widget(form.pricePerSeat, {'attr': {
+                                    'class': 'form-control' ~ (form.pricePerSeat.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.pricePerSeat) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.estimatedDuration) }}
+                                {{ form_widget(form.estimatedDuration, {'attr': {
+                                    'class': 'form-control' ~ (form.estimatedDuration.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.estimatedDuration) }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                {{ form_label(form.description) }}
+                                {{ form_widget(form.description, {'attr': {
+                                    'class': 'form-control' ~ (form.description.vars.errors|length > 0 ? ' is-invalid' : '')}}) }}
+                                <div class="invalid-feedback">
+                                    {{ form_errors(form.description) }}
+                                </div>
+                            </div>
+                        </div>
+                         <div class="col-12">
+                            <button type="submit" class="btn btn-search w-100">
+                                <i class="bi bi-plus-circle"></i> Ajouter le trajet
+                            </button>
+                            <a href="{{ path('app_profile') }}" class="btn btn-secondary w-100 mt-2">
+                                Annuler
+                            </a>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+        </div>
+    </div>
+</main>
+    <script>
+        (function () {
+            'use strict';
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        })();
+    </script>
+{% endblock %}

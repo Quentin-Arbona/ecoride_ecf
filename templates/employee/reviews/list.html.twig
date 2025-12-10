@@ -1,0 +1,101 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Modération des avis - Employé{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3">
+            <i class="bi bi-shield-check me-2"></i>Modération des avis
+        </h1>
+        <a href="{{ path('employee_dashboard') }}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i> Retour au dashboard
+        </a>
+    </div>
+
+    {% if pendingReviews is empty %}
+        <div class="alert alert-info">
+            <i class="bi bi-info-circle me-2"></i>
+            Aucun avis en attente de modération.
+        </div>
+    {% else %}
+        <div class="alert alert-warning mb-4">
+            <i class="bi bi-clock-history me-2"></i>
+            <strong>{{ pendingReviews|length }}</strong> avis en attente de validation
+        </div>
+
+        {% for review in pendingReviews %}
+        <div class="card mb-3 shadow-sm">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h5 class="card-title mb-1">
+                                    Avis de <span class="text-primary">{{ review.author.pseudo }}</span>
+                                    pour <span class="text-success">{{ review.driver.pseudo }}</span>
+                                </h5>
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar me-1"></i>
+                                    Publié le {{ review.createdAt|date('d/m/Y à H:i') }}
+                                </small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong><i class="bi bi-car-front me-1"></i>Trajet :</strong>
+                            <span class="text-muted">
+                                {{ review.ride.departurePlace }} → {{ review.ride.arrivalPlace }}
+                            </span>
+                            <br>
+                            <small class="text-muted">
+                                {{ review.ride.departureDate|date('d/m/Y') }}
+                            </small>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong><i class="bi bi-star-fill text-warning me-1"></i>Note :</strong>
+                            <span class="fs-5">
+                                {% for i in 1..5 %}
+                                    <i class="bi bi-star{{ i <= review.rating ? '-fill' : '' }} text-warning"></i>
+                                {% endfor %}
+                                <span class="text-muted ms-2">({{ review.rating }}/5)</span>
+                            </span>
+                        </div>
+
+                        <div class="mb-3">
+                            <strong><i class="bi bi-chat-text me-1"></i>Commentaire :</strong>
+                            <div class="p-3 bg-light rounded mt-2">
+                                <p class="mb-0">{{ review.content }}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 text-end d-flex flex-column justify-content-center">
+                        <form method="post"
+                              action="{{ path('employee_review_validate', {id: review.id}) }}"
+                              class="mb-2">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('validate_review_' ~ review.id) }}">
+                            <button type="submit" class="btn btn-success w-100">
+                                <i class="bi bi-check-circle me-1"></i> Valider l'avis
+                            </button>
+                        </form>
+
+                        <form method="post"
+                              action="{{ path('employee_review_refuse', {id: review.id}) }}"
+                              onsubmit="return confirm('Êtes-vous sûr de refuser cet avis ?')">
+                            <input type="hidden" name="_token"
+                                   value="{{ csrf_token('refuse_review_' ~ review.id) }}">
+                            <button type="submit" class="btn btn-danger w-100">
+                                <i class="bi bi-x-circle me-1"></i> Refuser l'avis
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

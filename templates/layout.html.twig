@@ -1,0 +1,22 @@
+{% extends "base.html.twig" %}
+
+{% block stylesheets %}
+ <link rel="stylesheet" href="{{asset('styles/main.min.css')}}">
+{% endblock %}
+
+{% block javascripts %}
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="min-vh-100 d-flex flex-column">
+    {{ include('partials/_banner.html.twig') }}
+
+
+    {% block content %}{% endblock %}
+
+    {{ include('partials/_footer.html.twig') }}
+</div>
+
+{% endblock %}
